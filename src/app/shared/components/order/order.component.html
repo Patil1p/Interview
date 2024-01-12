@@ -1,0 +1,107 @@
+<div class="container ">
+    <form [formGroup]="tableForm" (ngSubmit)="onSubmit()">
+
+        <div class="row text-capitalize mt-5">
+            <div class="col-md-6">
+                <label for="username">username: </label>
+
+
+                <div class="form-group">
+                    <label for="name">name: </label>
+                    <input type="text" class="form-control" formControlName="name">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">mobile no : </label>
+                    <input type="text" class="form-control" formControlName="mobile">
+
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+
+                <div class="text-right">
+                    <button class="btn btn-outline-danger" (click)="  isLogout()">logout</button>
+                </div>
+                <div class="form-group">
+                    <label for="date"> date</label>
+                    <input type="date" class="form-control" formControlName="date">
+                </div>
+                <div class="form-group">
+                    <label for="email"> email</label>
+                    <input type="email" class="form-control" formControlName="email">
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- <div class="tableData text-capitalize mt-5"> -->
+        <!-- <form [formGroup]="tableForm" (ngSubmit)="onSubmit()"> -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>action</th>
+                    <th>id</th>
+                    <th>code</th>
+                    <th>rate</th>
+                    <th>quantity</th>
+                    <th>value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container formArrayName="rows">
+                    <tr *ngFor="let row of rowArray.controls; let i=index">
+                        <ng-container [formGroupName]="i">
+                            <td><button class="btn btn-danger" type="button" (click)="onDelete(i)">delete</button></td>
+                            <td><input type="text" formControlName="id" #keys (keyup)="keyUp(keys)"></td>
+                            <td><input type="text" formControlName="code" readonly placeholder="readonly"></td>
+                            <td><input type="text" formControlName="rate" #rates></td>
+                            <td><input type="text" formControlName="quantity" #qty></td>
+                            <td> {{ value[i] }}</td>
+
+                            <!-- <td><input type="text" formControlName="value" readonly value=""></td> -->
+
+                        </ng-container>
+                    </tr>
+                </ng-container>
+
+
+            </tbody>
+        </table>
+        <div>
+            <button type="button" (click)="addRow()">Add row</button>
+        </div>
+        <div class="text-right text-capitalize">
+            <p>totalQty :{{qty}}</p>
+            <p> totalValue :{{totalValue}}</p>
+            <p> invoiceAmount :</p>
+            <p> discount :</p>
+
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary mr-3" type="submit ">Submit</button>
+            <button class="btn btn-primary" type="button" (click)="onclick()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="showData mt-5">
+    <div class="card text-capitalize" *ngFor="let s of inputData">
+        <div class="card-body">
+            <p>name:{{s.name}}</p>
+            <p>data:{{s.date}}</p>
+            <p>mobile:{{s.mobile}}</p>
+            <p>email:{{s.email}}</p>
+            products :[
+
+            <p>id: {{nextArr.description}}</p>
+            <p> code : {{nextArr.code}}</p>
+            <p>rate : {{nextArr.price}}</p>
+            <p> quantity : {{nextArr.quantity}}</p>
+            <p>value : {{nextArr.value}}</p>]
+        </div>
+    </div>
+</div>
