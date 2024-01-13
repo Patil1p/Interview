@@ -10,34 +10,34 @@ import { LogindatabaseService } from '../../service/logindatabase.service';
 })
 export class LoginComponent implements OnInit {
 
-   signIn !:FormGroup
-  constructor(private _router:Router,
-              private _login:LogindatabaseService) { }
+  signIn !: FormGroup
+  constructor(private _router: Router,
+    private _login: LogindatabaseService) { }
 
   ngOnInit(): void {
     this.signInForm()
   }
 
-  signInForm(){
+  signInForm() {
     this.signIn = new FormGroup({
-        username: new FormControl(null, Validators.required),
-        password: new FormControl(null, Validators.required)
+      username: new FormControl(null, Validators.required),
+      password: new FormControl(null, Validators.required)
 
     })
 
   }
 
-  onloginSubmit(){
+  onloginSubmit() {
     this.signIn
     let obj = {
       username: this.signIn.value.username,
-      password:this.signIn.value.password
+      password: this.signIn.value.password
     }
-   this._login.signInSuccess(obj)
+    this._login.signInSuccess(obj)
     console.log(obj);
     this.signIn.reset()
-   this._router.navigate(['/order'])
-    
+    this._router.navigate(['/order'])
+
   }
 
 }

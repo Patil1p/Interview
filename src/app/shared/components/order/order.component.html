@@ -1,27 +1,28 @@
 <div class="container ">
     <form [formGroup]="tableForm" (ngSubmit)="onSubmit()">
-
-        <div class="row text-capitalize mt-5">
+        <div class="row text-capitalize mt-5 mb-5">
             <div class="col-md-6">
-                <label for="username">username: </label>
-
-
+                <label for="username">UsersName :<strong>{{UsersName}}</strong> </label>
                 <div class="form-group">
-                    <label for="name">name: </label>
+                    <label for="name">Name: </label>
                     <input type="text" class="form-control" formControlName="name">
+                    <ng-container  *ngIf="tableForm.controls['name'].dirty && tableForm.controls['name'].invalid">
+                        <p class="text-danger"  *ngIf="tableForm.controls['name'].hasError('minlength')"> min length  {{tableForm.controls['name'].errors?.['minlength'].requiredLength}}</p>
+                        <p class="text-danger" *ngIf="tableForm.controls['name'].hasError('maxlength')">max lenth 40 numbers</p>   
+                       </ng-container>
                 </div>
                 <div class="form-group">
-                    <label for="mobile">mobile no : </label>
-                    <input type="text" class="form-control" formControlName="mobile">
-
+                    <label for="mobile">Mobile No : </label>
+                    <input type="number" class="form-control"  formControlName="mobile">
+                    <ng-container  *ngIf="tableForm.controls['mobile'].dirty && tableForm.controls['mobile'].invalid">
+                     <p class="text-danger"  *ngIf="tableForm.controls['mobile'].hasError('minlength')"> min length  {{tableForm.controls['mobile'].errors?.['minlength'].requiredLength}}</p>
+                     <p class="text-danger" *ngIf="tableForm.controls['mobile'].hasError('maxlength')">max lenth 10 numbers</p>  
+                    </ng-container>
                 </div>
-
             </div>
             <div class="col-md-6">
-
-
                 <div class="text-right">
-                    <button class="btn btn-outline-danger" (click)="  isLogout()">logout</button>
+                    <button class="btn btn-outline-danger" (click)="  isLogout()">logOut</button>
                 </div>
                 <div class="form-group">
                     <label for="date"> date</label>
@@ -30,14 +31,12 @@
                 <div class="form-group">
                     <label for="email"> email</label>
                     <input type="email" class="form-control" formControlName="email">
+                    <ng-container  *ngIf="tableForm.controls['email'].dirty && tableForm.controls['email'].invalid">
+                        <p class="text-danger"  *ngIf="tableForm.controls['email'].hasError('email')">Email not valid {{tableForm.controls['email'].errors?.['email']}}</p>
+                       </ng-container>
                 </div>
             </div>
         </div>
-
-
-
-        <!-- <div class="tableData text-capitalize mt-5"> -->
-        <!-- <form [formGroup]="tableForm" (ngSubmit)="onSubmit()"> -->
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -59,49 +58,41 @@
                             <td><input type="text" formControlName="rate" #rates></td>
                             <td><input type="text" formControlName="quantity" #qty></td>
                             <td> {{ value[i] }}</td>
-
-                            <!-- <td><input type="text" formControlName="value" readonly value=""></td> -->
-
                         </ng-container>
                     </tr>
                 </ng-container>
-
-
             </tbody>
         </table>
         <div>
-            <button type="button" (click)="addRow()">Add row</button>
+            <button type="button" (click)="addRow()" class="btn btn-success">Add row</button>
         </div>
         <div class="text-right text-capitalize">
             <p>totalQty :{{qty}}</p>
             <p> totalValue :{{totalValue}}</p>
-            <p> invoiceAmount :</p>
-            <p> discount :</p>
-
+            <p> discount : <input type="number" (change)="refreshInvAmt(disc)" #disc></p>
+            {{discount}}
+            <p> invoiceAmount : {{invoiceAmount}}</p>        
         </div>
         <div class="text-center">
-            <button class="btn btn-primary mr-3" type="submit ">Submit</button>
-            <button class="btn btn-primary" type="button" (click)="onclick()">Cancel</button>
+            <button class="btn btn-primary mr-3" type="submit " [disabled] = "discount">Submit</button>
+            <button class="btn btn-danger" type="button" (click)="onclick()">Cancel</button>
         </div>
     </form>
 </div>
-
-
-
 <div class="showData mt-5">
     <div class="card text-capitalize" *ngFor="let s of inputData">
         <div class="card-body">
-            <p>name:{{s.name}}</p>
-            <p>data:{{s.date}}</p>
-            <p>mobile:{{s.mobile}}</p>
-            <p>email:{{s.email}}</p>
-            products :[
-
-            <p>id: {{nextArr.description}}</p>
-            <p> code : {{nextArr.code}}</p>
-            <p>rate : {{nextArr.price}}</p>
-            <p> quantity : {{nextArr.quantity}}</p>
-            <p>value : {{nextArr.value}}</p>]
+            <p><strong>name:</strong>{{s.name}}</p>
+            <p><strong>data:</strong>{{s.date}}</p>
+            <p><strong>mobile:</strong>{{s.mobile}}</p>
+            <p><strong>email:</strong>{{s.email}}</p>
+          <strong>products : </strong> [
+            <p><strong>id :</strong> {{nextArr.description}}</p>
+            <p> <strong>code :</strong>  {{nextArr.code}}</p>
+            <p><strong>rate :</strong>
+                   {{nextArr.price}}</p>
+            <p><strong>quantity :</strong>  {{nextArr.quantity}}</p>
+            <p> <strong>value :</strong>   {{invoiceAmount}}</p>]
         </div>
     </div>
 </div>

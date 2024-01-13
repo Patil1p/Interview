@@ -7,37 +7,37 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class LogindatabaseService {
-  logindata:signIn= {
+  logindata: signIn = {
     username: 'ParkExcel',
     password: 'Excel@123'
   }
-  constructor(private _router:Router) { }
+  constructor(private _router: Router) { }
 
-  signInSuccess(obj:signIn){
-    if(obj.username === this.logindata.username && obj.password ===this.logindata.password){
-      localStorage.setItem("loginKey", "successful login")
+  signInSuccess(obj: signIn) {
+    if (obj.username === this.logindata.username && obj.password === this.logindata.password) {
+      localStorage.setItem("loginKey", "Park Excel")
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "login Successful..WelCome",
+        title: "login Successful...",
         showConfirmButton: false,
-        timer: 1500
+        timer: 3000
       });
       this._router.navigate(['/order'])
-      return true 
-    }else{
+      return true
+    } else {
       Swal.fire({
         position: "center",
         icon: "error",
-        title: "login UnSuccessful ",
+        title: "If Login is not done then it won’t have access",
         showConfirmButton: true,
-        timer: 1500
+        timer: 3000
       });
       return false
     }
   }
 
-  logOutDatabase(){
+  logOutDatabase() {
     localStorage.removeItem("loginKey")
   }
 }
