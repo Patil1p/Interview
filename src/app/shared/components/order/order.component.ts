@@ -224,11 +224,11 @@ export class OrderComponent implements OnInit {
       name: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(40)]),
       mobile: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern(/^-?\d*\.?\d*$/)]),
       email: new FormControl(null, [Validators.required, Validators.email,]),
-      date: new FormControl(null, [Validators.required, idValidator.dateNotGreaterThanTodayValidator]), //Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+      date: new FormControl(null, [Validators.required, idValidator.dateNotGreaterThanTodayValidator]), 
       rows: new FormArray([
         new FormGroup({
           id: new FormControl(null, [Validators.required, idValidator.validateId]),
-          // value: new FormControl(),
+     
           code: new FormControl(),
           rate: new FormControl(1),
           quantity: new FormControl(1)
@@ -248,7 +248,7 @@ export class OrderComponent implements OnInit {
       code: new FormControl(),
       rate: new FormControl(1),
       quantity: new FormControl(1),
-      // value?: rate * quantity
+      
     })
     this.rowArray.push(formG);
   }
@@ -282,7 +282,6 @@ export class OrderComponent implements OnInit {
       products:productList
     }
     
-    // this.tableForm.reset();
     this.discount=0;
     this.invoiceAmount=0;
     this.totalValue=0; 

@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       password: this.signIn.value.password
     }
     this._login.signInSuccess(obj)
-    console.log(obj);
+    
     this.signIn.reset()
     this._router.navigate(['/order'])
 
