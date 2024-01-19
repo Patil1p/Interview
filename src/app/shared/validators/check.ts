@@ -11,7 +11,6 @@ export class idValidator {
       }
     })
     if (count) {
-      console.log("Value ssss");
       return null
     } else {
       return { 'exact': true }

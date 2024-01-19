@@ -14,7 +14,7 @@ export class OrderComponent implements OnInit {
   UsersName = localStorage.getItem('loginKey')
   qty: any = 0;
   value: Array<number> = [];
-  inputData: Array<any> = []
+  inputData!:any;
   totalQty: number = 0;
   totalValue: number = 0;
   invoiceAmount: number = 0;
@@ -171,6 +171,7 @@ export class OrderComponent implements OnInit {
     this.calculateDiscount(+eve.value)
   }
   calculateDiscount(disc = 0) {
+    this.discount=disc;
     this.invoiceAmount = (100 - (disc)) / 100 * this.totalValue;
   }
   ngOnInit(): void {
@@ -221,45 +222,70 @@ export class OrderComponent implements OnInit {
   createForm() {
     this.tableForm = new FormGroup({
       name: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(40)]),
-      mobile: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      mobile: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern(/^-?\d*\.?\d*$/)]),
+      email: new FormControl(null, [Validators.required, Validators.email,]),
       date: new FormControl(null, [Validators.required, idValidator.dateNotGreaterThanTodayValidator]), //Validators.pattern(/^-?(0|[1-9]\d*)?$/)
       rows: new FormArray([
         new FormGroup({
           id: new FormControl(null, [Validators.required, idValidator.validateId]),
-          value: new FormControl(),
+          // value: new FormControl(),
           code: new FormControl(),
           rate: new FormControl(1),
           quantity: new FormControl(1)
         })
-      ])
+      ]),
+      discount:new FormControl(0)
     })
   }
 
   get rowArray() {
     return this.tableForm.get('rows') as FormArray
   }
+
   addRow() {
     let formG = new FormGroup({
       id: new FormControl(null),
       code: new FormControl(),
       rate: new FormControl(1),
       quantity: new FormControl(1),
-      value: new FormControl()
+      // value?: rate * quantity
     })
     this.rowArray.push(formG);
   }
   onSubmit() {
+    console.log(this.tableForm);
+    
+    let productList:any=[];
+    console.log(this.tableForm.value.rows);
+    this.tableForm.value.rows.forEach((ele:any) => {
+      let prodObj={
+        id:ele.id,
+        code:ele.code,
+        rate:ele.rate,
+        quantity:ele.quantity, 
+        value: ele.rate* ele.quantity
+      }
 
-    let obj = {
+      productList.push(prodObj);
+      
+    })
+    
+    this.inputData = {
       email: this.tableForm.value.email,
       date: this.tableForm.value.date,
       mobile: this.tableForm.value.mobile,
-      name: this.tableForm.value.name
+      name: this.tableForm.value.name,
+      totalQty:this.qty,
+      totalValue:this.totalValue,
+      discount:this.tableForm.value.discount,
+      invoiceAmt:this.invoiceAmount,
+      products:productList
     }
-
-    this.inputData.push(obj)
-    this.tableForm.reset()
+    
+    // this.tableForm.reset();
+    this.discount=0;
+    this.invoiceAmount=0;
+    this.totalValue=0; 
   }
   onDelete(id: any) {
     this.rowArray.removeAt(id)
