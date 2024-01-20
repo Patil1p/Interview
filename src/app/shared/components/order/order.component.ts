@@ -285,6 +285,7 @@ export class OrderComponent implements OnInit {
     this.discount=0;
     this.invoiceAmount=0;
     this.totalValue=0; 
+    this.tableForm.reset()
   }
   onDelete(id: any) {
     this.rowArray.removeAt(id)
